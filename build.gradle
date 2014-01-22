@@ -1,5 +1,37 @@
-task hello {
-    doLast {
-        println 'Hello world!'
+apply plugin: 'maven'
+
+version = "1.0.0-SNAPSHOT"
+group = "com.netcetera.demo.gradle"
+
+def gradleParentFile = file('parent.gradle')
+
+artifacts {
+    archives gradleParentFile
+}
+
+configurations {
+    archives {
+        extendsFrom configurations.default
+    }
+}
+
+uploadArchives {
+    configuration = configurations.archives
+    repositories.mavenDeployer {
+
+
+        // if the version name contatin SNAPSHOT, the "repository" is used
+        snapshotRepository(url: 'http://repo.netcetera.com/nexus/content/repositories/internal-repository-snapshot') {
+            authentication(userName: username, password: password)
+        }
+
+        // if the version name do not contatin SNAPSHOT, the "repository" is used
+        repository(url: 'http://repo.netcetera.com/nexus/content/repositories/internal-repository-release') {
+            authentication(userName: username, password: password)
+        }
+
+        pom.project {
+            artifactId 'gradle-parent'
+        }
     }
 }
