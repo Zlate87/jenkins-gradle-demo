@@ -45,5 +45,8 @@ sonarRunner {
         property "sonar.jdbc.driverClassName", "org.h2.Driver"
         property "sonar.jdbc.username", "sonar"
         property "sonar.jdbc.password", "sonar"
+        property "sonar.language", "java"
+        property "sonar.sources", "src"
+        property "sonar.binaries", "build"
     }
 }
